@@ -1,0 +1,35 @@
+---
+#system Informations
+sys_user: internship
+sys_grp: internship
+user_id: 1005
+group_id: 1005
+
+srv_hostname: AIO-Internship
+srv_pub_ip: "{{ hosts['wordpress']['ansible_eth0']['ipv4']['address'] }}"
+srv_pri_ip: localhost
+
+# This is used for the nginx + PHP server configuration.
+nginx_port: 80
+server_hostname: www.internship.com internship.com
+rootdir_nginx: /home/{{ sys_user }}/public_html/wordpress/
+rootdir: /home/{{ sys_user }}/public_html/
+
+# MySQL settings
+mysqlservice: mysqld
+mysql_port: 3306
+db_host: "{{ hosts['wordpress']['ansible_eth0']['ipv4']['address'] }}"
+mysql_root_username: root
+mysql_root_password: internship
+
+# Wordpress Settings
+wp_version: latest
+wp_db_name: internship
+wp_db_user: internship
+wp_db_password: internship
+
+#Templates Files
+src_ng_conf: nginx_vhost.conf
+dest_ng_conf: /etc/nginx/conf.d/internship.conf
+src_php_conf: php_fpm_conf.conf
+dest_php_conf: /etc/php-fpm.d/internship.conf

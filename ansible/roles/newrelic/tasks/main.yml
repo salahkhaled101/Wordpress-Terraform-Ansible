@@ -1,0 +1,31 @@
+---
+# Install New Relic APM for Redhat Linux Distro.
+
+- name: Install the agent and daemon
+  shell: yum install -y newrelic-php5
+
+- name: start New Relic Daemon service
+  service: name=newrelic-daemon state=started enabled=yes
+
+- name: Copy the newrelic-install script
+  template: src=newrelic.ini dest=/etc/php.d/newrelic.ini
+
+- name: Run the newrelic-install script
+  shell: echo -e "{{ License_Key }}\nall" | newrelic-install install
+
+
+- name: Install The Server Monitor Packages 
+  shell: yum install newrelic-sysmond -y
+
+- name: Configure and start the Server Monitor daemon 
+  shell: nrsysmond-config --set license_key={{ License_Key }}
+
+- name: Start The newrelic sysmond service
+  shell: /etc/init.d/newrelic-sysmond start
+
+- name: restart php-fpm
+  service: name={{ item }} state=restarted enabled=yes
+  with_items:
+   - newrelic-daemon
+   - newrelic-sysmond
+   - nginx

@@ -1,0 +1,13 @@
+- name: Install Nginx, PHP-FPM, Mariadb, Wordpress, and SecureDB
+  hosts: wordpress
+  user: centos
+  become: yes
+ 
+  roles:
+    - repos
+    - system
+    - nginx
+    - php-fpm
+    - mariadb
+    - secure_db
+    - wordpress
